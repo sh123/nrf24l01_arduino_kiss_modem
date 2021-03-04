@@ -59,7 +59,7 @@ void setup() {
   radio_.openWritingPipe(address_);
   radio_.setPALevel(RADIO_PA);
   radio_.setDataRate(RADIO_SPEED);
-  radio_.setCRCLength(RF24_CRC_DISABLED);
+  radio_.setCRCLength(RF24_CRC_8);
   radio_.setChannel(RADIO_CHANNEL);
   radio_.startListening();
   

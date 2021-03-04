@@ -49,6 +49,7 @@ int kissBufferPosition_ = 0;
 // not used
 byte csmaP_ = RADIO_DEFAULT_P;
 long csmaSlotTime_ = RADIO_DEFAULT_SLOT_TIME;
+long csmaSlotTimePrev_ = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -71,13 +72,12 @@ void loop() {
     onRadioDataAvailable();
   }
   else {
-    if (random(0, 255) < csmaP_) {
+    long currentTime = millis();
+    if (currentTime > csmaSlotTimePrev_ + csmaSlotTime_ && random(0, 255) < csmaP_) {
       if (Serial.available()) {
         onSerialDataAvailable();
       }
-    }
-    else {
-      delay(csmaSlotTime_);
+      csmaSlotTimePrev_ = currentTime;
     }
   }
   delay(LOOP_SLEEP_MS);
